@@ -1,5 +1,5 @@
 {
-    "name": "payment-gateways/paypal-sdk-mock",
+    "name": "payment-gateways/paypal-api-mock",
     "description": "Mock for PayPal Apis",
     "type": "library",
     "license": "MIT",
@@ -24,5 +24,9 @@
         "psr-4": {
             "PaymentGateway\\PayPalSdkMock\\Tests\\": "tests"
         }
+    },
+    "scripts": {
+        "phpunit": "phpunit --stop-on-error --stop-on-failure --testdox",
+        "phpunit-xml": "phpunit --stop-on-error --stop-on-failure --coverage-clover phpunit.coverage.xml"
     }
 }
