@@ -1,6 +1,6 @@
 <?php
 
-namespace PaymentGateway\PayPalSdkMock\Concerns;
+namespace PaymentGateway\PayPalApiMock\Concerns;
 
 use GuzzleHttp\Promise\PromiseInterface;
 

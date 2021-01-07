@@ -1,6 +1,6 @@
 <?php
 
-namespace PaymentGateway\PayPalSdkMock\Tests;
+namespace PaymentGateway\PayPalApiMock\Tests;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\HandlerStack;

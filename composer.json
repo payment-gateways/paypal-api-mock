@@ -17,12 +17,12 @@
     },
     "autoload": {
         "psr-4": {
-            "PaymentGateway\\PayPalSdkMock\\": "src"
+            "PaymentGateway\\PayPalApiMock\\": "src"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "PaymentGateway\\PayPalSdkMock\\Tests\\": "tests"
+            "PaymentGateway\\PayPalApiMock\\Tests\\": "tests"
         }
     },
     "scripts": {

@@ -3,9 +3,9 @@
 namespace PaymentGateway\PayPalSdkMock;
 
 use GuzzleHttp\Promise\PromiseInterface;
-use PaymentGateway\PayPalSdkMock\Concerns\HasBasicAuthentication;
-use PaymentGateway\PayPalSdkMock\Concerns\HasBearerAuthentication;
-use PaymentGateway\PayPalSdkMock\Concerns\HasFixedResponse;
+use PaymentGateway\PayPalApiMock\Concerns\HasBasicAuthentication;
+use PaymentGateway\PayPalApiMock\Concerns\HasBearerAuthentication;
+use PaymentGateway\PayPalApiMock\Concerns\HasFixedResponse;
 use PaymentGateway\PayPalSdkMock\Constants\PlanStatus;
 use PaymentGateway\PayPalSdkMock\Constants\ProductType;
 use PaymentGateway\PayPalSdkMock\Responses\PayPalApiResponse;
