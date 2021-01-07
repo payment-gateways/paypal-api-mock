@@ -1,6 +1,6 @@
 <?php
 
-namespace PaymentGateway\PayPalSdkMock\Constants;
+namespace PaymentGateway\PayPalApiMock\Constants;
 
 interface ProductType
 {

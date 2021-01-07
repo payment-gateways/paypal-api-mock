@@ -4,7 +4,7 @@ namespace PaymentGateway\PayPalApiMock\Tests;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\HandlerStack;
-use PaymentGateway\PayPalSdkMock\PayPalApiMock;
+use PaymentGateway\PayPalApiMock\PayPalApiMock;
 use PHPUnit\Framework\TestCase;
 
 class CatalogProductApiTest extends TestCase

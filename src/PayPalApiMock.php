@@ -1,14 +1,14 @@
 <?php
 
-namespace PaymentGateway\PayPalSdkMock;
+namespace PaymentGateway\PayPalApiMock;
 
 use GuzzleHttp\Promise\PromiseInterface;
 use PaymentGateway\PayPalApiMock\Concerns\HasBasicAuthentication;
 use PaymentGateway\PayPalApiMock\Concerns\HasBearerAuthentication;
 use PaymentGateway\PayPalApiMock\Concerns\HasFixedResponse;
-use PaymentGateway\PayPalSdkMock\Constants\PlanStatus;
-use PaymentGateway\PayPalSdkMock\Constants\ProductType;
-use PaymentGateway\PayPalSdkMock\Responses\PayPalApiResponse;
+use PaymentGateway\PayPalApiMock\Constants\PlanStatus;
+use PaymentGateway\PayPalApiMock\Constants\ProductType;
+use PaymentGateway\PayPalApiMock\Responses\PayPalApiResponse;
 use Psr\Http\Message\RequestInterface;
 
 class PayPalApiMock extends BaseMock

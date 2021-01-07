@@ -1,8 +1,8 @@
 <?php
 
-namespace PaymentGateway\PayPalSdkMock\Responses;
+namespace PaymentGateway\PayPalApiMock\Responses;
 
-use PaymentGateway\PayPalSdkMock\Constants\PlanStatus;
+use PaymentGateway\PayPalApiMock\Constants\PlanStatus;
 
 class PayPalApiResponse
 {
