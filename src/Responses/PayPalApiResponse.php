@@ -257,4 +257,16 @@ class PayPalApiResponse
 
         return $plan;
     }
+
+    public static function subscriptionCreated(array $request): array
+    {
+        $subscription = [
+            'status' => $request['status'],
+            'id' => $request['id'],
+            'create_time' => $request['create_time'],
+            'links' => $request['links'],
+        ];
+
+        return $subscription;
+    }
 }

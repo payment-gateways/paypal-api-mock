@@ -229,6 +229,17 @@ class PayPalApiMock extends BaseMock
             } else {
                 $this->response = $this->response(405, '', [], 'Method Not Allowed');
             }
+        } elseif ($request->getUri()->getPath() === '/v1/billing/subscriptions') {
+            if ($request->getMethod() === 'POST') {
+                if (!$this->validateAuthToken($request)) {
+                    $this->failureAuthentication();
+                } else {
+                    $json = $this->parseArray(json_decode($request->getBody()->getContents()));
+                    $this->createSubscription($json);
+                }
+            } else {
+                $this->response = $this->response(405, '', [], 'Method Not Allowed');
+            }
         }
 
         return $this->response;
@@ -421,5 +432,50 @@ class PayPalApiMock extends BaseMock
     private function showPlanResponse(string $id): void
     {
         $this->response = $this->jsonResponse(200, $this->showPlan($id), [], 'OK');
+    }
+
+    private function createSubscription(array $request): void
+    {
+        if (!isset($request['plan_id'])) {
+            $this->response = $this->jsonResponse(
+                400,
+                PayPalApiResponse::missingRequiredParameter('plan_id'),
+                [],
+                'Bad Request'
+            );
+            return;
+        }
+
+        if (!isset($request['status'])) {
+            $request['status'] = PlanStatus::ACTIVE;
+        }
+
+        $token = 'BA-' . substr(bin2hex(uniqid()), 0, 12);
+
+        $request['id'] = 'I-' . substr(bin2hex(uniqid()), 0, 17);
+        $request['status'] = 'APPROVAL_PENDING';
+        $request['create_time'] = '2020-12-17T03:44:39Z';
+
+        $request['links'] = [
+            [
+                'href' =>  'https://www.sandbox.paypal.com/webapps/billing/subscriptions?ba_token=' . $token,
+                'rel' =>  'approve',
+                'method' =>  'GET'
+            ],
+            [
+                'href' =>  'https://api.sandbox.paypal.com/v1/billing/subscriptions/' . $request['id'],
+                'rel' =>  'edit',
+                'method' =>  'PATCH'
+            ],
+            [
+                'href' =>  'https://api.sandbox.paypal.com/v1/billing/subscriptions/' . $request['id'],
+                'rel' =>  'self',
+                'method' =>  'POST'
+            ]
+        ];
+
+        $subscription = PayPalApiResponse::subscriptionCreated($request);
+
+        $this->response = $this->jsonResponse(201, $subscription, [], 'Created');
     }
 }
