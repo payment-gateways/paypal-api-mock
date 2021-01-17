@@ -122,7 +122,7 @@ class PayPalApiResponse
         return self::invalidRequest('INVALID_PATCH_PATH', 'The specified field cannot be patched.', '0/path', $value);
     }
 
-    public static function resourceNotFound($identifier): array
+    public static function resourceNotFound($identifier = null): array
     {
         return [
             'name' => 'RESOURCE_NOT_FOUND',
@@ -131,7 +131,7 @@ class PayPalApiResponse
             'details' => [
                 [
                     'issue' => 'INVALID_RESOURCE_ID',
-                    'description' => 'Invalid ' . $identifier
+                    'description' => $identifier ? 'Invalid ' . $identifier : 'Requested resource ID was not found'
                 ]
             ],
             'links' => [

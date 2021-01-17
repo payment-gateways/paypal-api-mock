@@ -19,6 +19,7 @@ class PayPalApiMock extends BaseMock
 
     private const PRODUCT_PATTERN = '/v1\/catalogs\/products\/(PROD-[0-9a-zA-Z]+)/';
     private const PLAN_PATTERN = '/v1\/billing\/plans\/(P-[0-9a-zA-Z]+)/';
+    private const SUBSCRIPTION_PATTERN = '/v1\/billing\/subscriptions\/(I-[0-9a-zA-Z]+)/';
 
     protected string $hostname = 'api.sandbox.paypal.com';
 
@@ -27,6 +28,7 @@ class PayPalApiMock extends BaseMock
 
     protected array $products = [];
     protected array $plans = [];
+    protected array $subscriptions = [];
 
     protected ?PromiseInterface $response = null;
 
@@ -240,6 +242,21 @@ class PayPalApiMock extends BaseMock
             } else {
                 $this->response = $this->response(405, '', [], 'Method Not Allowed');
             }
+        } elseif (preg_match(self::SUBSCRIPTION_PATTERN, $request->getUri()->getPath(), $matches)) {
+            if ($request->getMethod() === 'GET') {
+                $id = $matches[1];
+
+                if (!in_array($id, array_column($this->subscriptions, 'id'))) {
+                    $this->response = $this->jsonResponse(
+                        404,
+                        PayPalApiResponse::resourceNotFound(),
+                        [],
+                        'Not Found'
+                    );
+                } else {
+                    $this->showsubscriptionResponse($id);
+                }
+            }
         }
 
         return $this->response;
@@ -434,6 +451,19 @@ class PayPalApiMock extends BaseMock
         $this->response = $this->jsonResponse(200, $this->showPlan($id), [], 'OK');
     }
 
+    private function showSubscription(string $id): array
+    {
+        $ids = array_column($this->subscriptions, 'id');
+        $position = $this->arrayPos($ids, $id);
+
+        return $this->subscriptions[$position];
+    }
+
+    private function showsubscriptionResponse(string $id): void
+    {
+        $this->response = $this->jsonResponse(200, $this->showSubscription($id), [], 'OK');
+    }
+
     private function createSubscription(array $request): void
     {
         if (!isset($request['plan_id'])) {
@@ -446,8 +476,12 @@ class PayPalApiMock extends BaseMock
             return;
         }
 
-        if (!isset($request['status'])) {
-            $request['status'] = PlanStatus::ACTIVE;
+        if (!isset($request['quantity'])) {
+            $request['quantity'] = 1;
+        }
+
+        if (!isset($request['plan_overridden'])) {
+            $request['plan_overridden'] = false;
         }
 
         $token = 'BA-' . substr(bin2hex(uniqid()), 0, 12);
@@ -474,6 +508,7 @@ class PayPalApiMock extends BaseMock
             ]
         ];
 
+        $this->subscriptions[] = $request;
         $subscription = PayPalApiResponse::subscriptionCreated($request);
 
         $this->response = $this->jsonResponse(201, $subscription, [], 'Created');
